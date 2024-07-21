@@ -54,7 +54,7 @@ check_phreaknet_installed() {
           print_success "Removed /usr/local/sbin/phreaknet successfully."
           break
           ;;
-        [Nn]* | "" )
+        [Nn]* )
           print_warning "Please remove /usr/local/sbin/phreaknet manually and re-run the script."
           exit 1
           ;;
@@ -68,7 +68,7 @@ check_phreaknet_installed() {
 
 # Main script execution starts here
 
-print_info "Script Version 0.1.1"
+print_info "Script Version 0.1.2"
 
 # Check if running as root or not
 if [ "$(id -u)" -ne 0 ]; then
