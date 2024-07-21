@@ -45,7 +45,7 @@ check_phreaknet_installed() {
     while true; do
       read -p "Would you like to remove it? (y/N): " response
       case $response in
-        [Yy]* )
+        [Yy] )
           run_command rm /usr/local/sbin/phreaknet
           if [ $? -ne 0 ]; then
             print_error "Failed to remove /usr/local/sbin/phreaknet"
@@ -54,7 +54,7 @@ check_phreaknet_installed() {
           print_success "Removed /usr/local/sbin/phreaknet successfully."
           break
           ;;
-        [Nn]* )
+        [Nn] )
           print_warning "Please remove /usr/local/sbin/phreaknet manually and re-run the script."
           exit 1
           ;;
@@ -68,7 +68,7 @@ check_phreaknet_installed() {
 
 # Main script execution starts here
 
-print_info "Script Version 0.1.2"
+print_info "Script Version 0.1.3"
 
 # Check if running as root or not
 if [ "$(id -u)" -ne 0 ]; then
