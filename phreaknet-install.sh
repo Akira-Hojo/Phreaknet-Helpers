@@ -41,7 +41,7 @@ print_info() {
 check_phreaknet_installed() {
   if [ -f /usr/local/sbin/phreaknet ]; then
     print_warning "phreaknet is already installed at /usr/local/sbin/phreaknet."
-    
+
     while true; do
       read -p "Would you like to remove it? (y/N): " response
       case $response in
@@ -68,7 +68,7 @@ check_phreaknet_installed() {
 
 # Main script execution starts here
 
-print_info "Script Version 0.1"
+print_info "Script Version 0.1.1"
 
 # Check if running as root or not
 if [ "$(id -u)" -ne 0 ]; then
