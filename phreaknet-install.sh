@@ -68,6 +68,8 @@ check_phreaknet_installed() {
 
 # Main script execution starts here
 
+print_info "Script Version 0.1"
+
 # Check if running as root or not
 if [ "$(id -u)" -ne 0 ]; then
   print_warning "You are running as a non-root user. Will attempt to use sudo for elevation."
