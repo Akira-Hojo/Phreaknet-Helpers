@@ -1,26 +1,5 @@
 #!/bin/bash
 
-# Colors for output formatting
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m' # No Color
-
-# Function to print messages in green
-print_success() {
-  echo -e "${GREEN}$1${NC}"
-}
-
-# Function to print warnings in yellow
-print_warning() {
-  echo -e "${YELLOW}$1${NC}"
-}
-
-# Function to print errors in red
-print_error() {
-  echo -e "${RED}$1${NC}"
-}
-
 # Function to execute commands with or without sudo
 run_command() {
   if [ "$USE_SUDO" = true ]; then
@@ -31,7 +10,7 @@ run_command() {
 
   # Check the status of the command
   if [ $? -ne 0 ]; then
-    print_error "ERROR: Command failed: $*"
+    print_error "Command failed: $*"
     exit 1
   fi
 }
@@ -39,6 +18,23 @@ run_command() {
 # Function to check if a command exists
 command_exists() {
   command -v "$1" >/dev/null 2>&1
+}
+
+# Print functions for formatting output
+print_warning() {
+  echo -e "\e[33mWARNING: $1\e[0m"
+}
+
+print_error() {
+  echo -e "\e[31mERROR: $1\e[0m"
+}
+
+print_success() {
+  echo -e "\e[32mSUCCESS: $1\e[0m"
+}
+
+print_info() {
+  echo -e "\e[34mINFO: $1\e[0m"
 }
 
 # Function to check if phreaknet is already installed
@@ -64,16 +60,16 @@ check_phreaknet_installed() {
 
 # Check if running as root or not
 if [ "$(id -u)" -ne 0 ]; then
-  print_warning "WARNING: You are running as a non-root user. Will attempt to use sudo for elevation."
+  print_warning "You are running as a non-root user. Will attempt to use sudo for elevation."
   USE_SUDO=true
 else
-  print_warning "CAUTION: You are running as the root user, please be careful!"
+  print_warning "You are running as the root user, please be careful!"
   USE_SUDO=false
 fi
 
 # Detect the operating system
 OS=$(uname)
-print_success "Operating system detected: $OS"
+print_info "Operating system detected: $OS"
 
 # Check for phreaknet before proceeding
 check_phreaknet_installed
@@ -86,9 +82,9 @@ if [ "$OS" = "Linux" ]; then
     else
       DISTRO="Debian/Ubuntu"
     fi
-    print_success "Distribution detected: $DISTRO"
+    print_info "Distribution detected: $DISTRO"
 
-    print_warning "Checking for wget..."
+    print_info "Checking for wget..."
     # Check if wget is installed, if not install it
     if ! command_exists wget; then
       print_warning "wget not found, installing..."
@@ -99,13 +95,13 @@ if [ "$OS" = "Linux" ]; then
     fi
 
     # Download the script to /usr/local/src
-    print_warning "Downloading phreaknet.sh to /usr/local/src..."
+    print_info "Downloading phreaknet.sh to /usr/local/src..."
     run_command wget -O /usr/local/src/phreaknet.sh https://docs.phreaknet.org/script/phreaknet.sh
 
-    print_warning "Making phreaknet.sh executable..."
+    print_info "Making phreaknet.sh executable..."
     run_command chmod +x /usr/local/src/phreaknet.sh
 
-    print_warning "Running phreaknet.sh with 'make' argument..."
+    print_info "Running phreaknet.sh with 'make' argument..."
     run_command /usr/local/src/phreaknet.sh make
   else
     print_error "Unsupported Linux distribution. This script only supports Debian or Ubuntu."
@@ -114,7 +110,7 @@ if [ "$OS" = "Linux" ]; then
 
 # Define commands for FreeBSD
 elif [ "$OS" = "FreeBSD" ]; then
-  print_warning "Checking for wget..."
+  print_info "Checking for wget..."
   # Check if wget is installed, if not install it
   if ! command_exists wget; then
     print_warning "wget not found, installing..."
@@ -125,13 +121,13 @@ elif [ "$OS" = "FreeBSD" ]; then
   fi
 
   # Download the script to /usr/local/src
-  print_warning "Downloading phreaknet.sh to /usr/local/src..."
+  print_info "Downloading phreaknet.sh to /usr/local/src..."
   run_command wget -O /usr/local/src/phreaknet.sh https://docs.phreaknet.org/script/phreaknet.sh
 
-  print_warning "Making phreaknet.sh executable..."
+  print_info "Making phreaknet.sh executable..."
   run_command chmod +x /usr/local/src/phreaknet.sh
 
-  print_warning "Running phreaknet.sh with 'make' argument..."
+  print_info "Running phreaknet.sh with 'make' argument..."
   run_command /usr/local/src/phreaknet.sh make
 
 # If the OS is not recognized, print a message
