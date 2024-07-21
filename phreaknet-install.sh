@@ -41,18 +41,28 @@ print_info() {
 check_phreaknet_installed() {
   if [ -f /usr/local/sbin/phreaknet ]; then
     print_warning "phreaknet is already installed at /usr/local/sbin/phreaknet."
-    read -p "Would you like to remove it? (y/N): " response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-      run_command rm /usr/local/sbin/phreaknet
-      if [ $? -ne 0 ]; then
-        print_error "Failed to remove /usr/local/sbin/phreaknet"
-        exit 1
-      fi
-      print_success "Removed /usr/local/sbin/phreaknet successfully."
-    else
-      print_warning "Please remove /usr/local/sbin/phreaknet manually and re-run the script."
-      exit 1
-    fi
+    
+    while true; do
+      read -p "Would you like to remove it? (y/N): " response
+      case $response in
+        [Yy]* )
+          run_command rm /usr/local/sbin/phreaknet
+          if [ $? -ne 0 ]; then
+            print_error "Failed to remove /usr/local/sbin/phreaknet"
+            exit 1
+          fi
+          print_success "Removed /usr/local/sbin/phreaknet successfully."
+          break
+          ;;
+        [Nn]* | "" )
+          print_warning "Please remove /usr/local/sbin/phreaknet manually and re-run the script."
+          exit 1
+          ;;
+        * )
+          echo "Please answer yes or no."
+          ;;
+      esac
+    done
   fi
 }
 
