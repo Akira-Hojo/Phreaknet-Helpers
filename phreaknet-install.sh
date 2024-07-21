@@ -34,7 +34,7 @@ print_success() {
 }
 
 print_info() {
-  echo -e "\e[34mINFO: $1\e[0m"
+  echo -e "\e[36mINFO: $1\e[0m"
 }
 
 # Function to check if phreaknet is already installed
