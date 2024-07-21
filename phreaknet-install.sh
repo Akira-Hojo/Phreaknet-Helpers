@@ -41,7 +41,6 @@ print_info() {
 check_phreaknet_installed() {
   if [ -f /usr/local/sbin/phreaknet ]; then
     print_warning "phreaknet is already installed at /usr/local/sbin/phreaknet."
-
     read -p "Would you like to remove it? (y/N): " response
         if [ "$response" = "y" ]; then
             run_command rm /usr/local/sbin/phreaknet
