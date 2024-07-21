@@ -3,10 +3,10 @@
 # Function to execute commands with or without sudo
 run_command() {
   if [ "$(id -u)" -ne 0 ]; then
-    echo "NOTICE: You are running as a non-root user. Attempting to use sudo for: $*"
+    echo "WARNING: You are running as a non-root user. Will attempt to use sudo for elevation"
     sudo "$@"
   else
-    echo "CAUTION: You are running as the root user. Executing: $*"
+    echo "CAUTION: You are running as the root user, please be careful!"
     "$@"
   fi
 
@@ -39,18 +39,15 @@ if [ "$OS" = "Linux" ]; then
     echo "wget is already installed."
   fi
 
-  # Navigate to /usr/local/src and download the script
-  echo "Navigating to /usr/local/src..."
-  run_command cd /usr/local/src
-
-  echo "Downloading phreaknet.sh..."
-  run_command wget https://raw.githubusercontent.com/InterLinked1/phreakscript/master/phreaknet.sh
+  # Download the script to /usr/local/src
+  echo "Downloading phreaknet.sh to /usr/local/src..."
+  run_command wget -O /usr/local/src/phreaknet.sh https://docs.phreaknet.org/script/phreaknet.sh
 
   echo "Making phreaknet.sh executable..."
-  run_command chmod +x phreaknet.sh
+  run_command chmod +x /usr/local/src/phreaknet.sh
 
   echo "Running phreaknet.sh with 'make' argument..."
-  run_command ./phreaknet.sh make
+  run_command /usr/local/src/phreaknet.sh make
 
 # Define commands for FreeBSD
 elif [ "$OS" = "FreeBSD" ]; then
@@ -64,18 +61,15 @@ elif [ "$OS" = "FreeBSD" ]; then
     echo "wget is already installed."
   fi
 
-  # Navigate to /usr/local/src and download the script
-  echo "Navigating to /usr/local/src..."
-  run_command cd /usr/local/src
-
-  echo "Downloading phreaknet.sh..."
-  run_command wget https://raw.githubusercontent.com/InterLinked1/phreakscript/master/phreaknet.sh
+  # Download the script to /usr/local/src
+  echo "Downloading phreaknet.sh to /usr/local/src..."
+  run_command wget -O /usr/local/src/phreaknet.sh https://docs.phreaknet.org/script/phreaknet.sh
 
   echo "Making phreaknet.sh executable..."
-  run_command chmod +x phreaknet.sh
+  run_command chmod +x /usr/local/src/phreaknet.sh
 
   echo "Running phreaknet.sh with 'make' argument..."
-  run_command ./phreaknet.sh make
+  run_command /usr/local/src/phreaknet.sh make
 
 # If the OS is not recognized, print a message
 else
@@ -83,4 +77,4 @@ else
   exit 1
 fi
 
-echo "Script completed successfully. Thank you for calling Phreaknet!"
+echo "Script completed successfully."
